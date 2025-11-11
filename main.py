@@ -8,24 +8,26 @@ print("Great! Your character is ready!")
 print(user_character)
 print()
 
-
-
-while user_character.IsAlive():
+max_enemies_was = len(Enemy_list)
+while True:
+    if not user_character.IsAlive():
+        print(f"Oh you are dead! you killed {max_enemies_was - len(Enemy_list)} enemies!")
+        break
     print("Here are the enemies!")
-    alived_enemies = 0
+
     for i in Enemy_list:
-        alived_enemies += i.is_alive
         print(i)
     
-    if not alived_enemies:
+    if not Enemy_list:
         print("Every one was killed! Great job! Bye!")
-        user_character.Die()
+        break
 
-        
+    print("================================")
+    print(f"Your hp {user_character.hp} and xp is {user_character.xp}/{user_character.XP_target}")
     fight = input("Do you want to fight ? Y/n: ")
     if fight != "Y":
         print("Ok. Then next time see ya! Bye!")
-        user_character.Die()
+        break
 
     Enemy = Enemy_list[random.randint(0, len(Enemy_list) - 1)]
     print(f"Great! Your enemy is {Enemy.name}")
@@ -36,4 +38,5 @@ while user_character.IsAlive():
         enemy_roll = random.randint(1,2)
         Enemy.Attack(user_character, enemy_roll)
 
-
+    if not Enemy.is_alive:
+        Enemy_list.remove(Enemy)
