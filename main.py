@@ -8,13 +8,16 @@ from mainwindow import Window
 Classes = ["Warrior", "Archer", "Wizzard"]
 weapons = [Weapon("War Hummer", 5, 25), Weapon("Sword", 4, 20), Weapon("Axe", 2, 10)]
 
+Player = Person("")
 
-app = Window("Main Window", can_resize=True)
+app = Window("Main Window", size="1200x600", can_resize=True)
 
 Wellcome_frame = Frame(app)
 Wellcome_frame.pack()
+User_frame = Frame(app)
+User_frame.pack_forget()
 
-def Lets_start():
+def Next():
     if len(inp_name.get()) < 2:
         start_game_lbl.config(text="The name must be at least 2 symbol")
         return
@@ -25,7 +28,14 @@ def Lets_start():
 
     weapon_choose_frame.pack()
     
-
+def Lets_start():
+    global Player
+    Player = Person(inp_name.get(), weapon_cb.get())
+    Wellcome_frame.pack_forget()
+    User_frame.pack()
+    show_user_info()
+    
+    
 
 Label(Wellcome_frame, text="Hello Adventurer! What's your name?").pack()
 inp_frames = Frame(Wellcome_frame)
@@ -39,7 +49,7 @@ Label(inp_frames2, text="choose classes: ").pack(side=LEFT)
 inp_class = ttk.Combobox(inp_frames2, values=Classes, font=("FixedSys", 15))
 inp_class.pack(side=LEFT)
 
-Button(Wellcome_frame, text="Let's Start!", command=Lets_start).pack()
+Button(Wellcome_frame, text="Next!", command=Next).pack()
 start_game_lbl = Label(Wellcome_frame, text="")
 start_game_lbl.pack()
 
@@ -49,11 +59,17 @@ Label(weapon_choose_frame, text="choose weapon: ").pack(side=LEFT)
 weapon_cb = ttk.Combobox(weapon_choose_frame, values=weapons, font=("FixedSys", 15))
 weapon_cb.pack(side=LEFT)
 
+Button(weapon_choose_frame, text="Done!", command=Lets_start).pack()
+
+
 ############# Start of the game #############
-
-
-
-
+def show_user_info():
+    player_info_frame = Frame(User_frame)
+    player_info_frame.grid()
+    Label(player_info_frame, text=f"Player name: {Player.name}").grid(column=0, row=0)
+    Label(player_info_frame, text=f"HP: {Player.hp} / {Player.max_hp}").grid(column=0, row=1)
+    Label(player_info_frame, text=f"manna: {Player.manna} / {Player.max_manna}").grid(column=0, row=2)
+    Label(player_info_frame, text=f"Weapon: {Player.weapon}").grid(column=0, row=3)
 
 
 
