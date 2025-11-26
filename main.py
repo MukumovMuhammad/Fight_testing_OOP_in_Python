@@ -1,10 +1,62 @@
-from Character_obj import Person
+from Character_obj import Person, Weapon
 import random
 from tkinter import *
-from mainwindow import MainWindow
+from tkinter import ttk
+from mainwindow import Window
 
 
-app = MainWindow()
+Classes = ["Warrior", "Archer", "Wizzard"]
+weapons = [Weapon("War Hummer", 5, 25), Weapon("Sword", 4, 20), Weapon("Axe", 2, 10)]
+
+
+app = Window("Main Window", can_resize=True)
+
+Wellcome_frame = Frame(app)
+Wellcome_frame.pack()
+
+def Lets_start():
+    if len(inp_name.get()) < 2:
+        start_game_lbl.config(text="The name must be at least 2 symbol")
+        return
+    if not inp_class.get() in Classes:
+        start_game_lbl.config(text="Please Choose one of the classes!")
+        return
+    start_game_lbl.config(text="Great! now choose your weapon!")
+
+    weapon_choose_frame.pack()
+    
+
+
+Label(Wellcome_frame, text="Hello Adventurer! What's your name?").pack()
+inp_frames = Frame(Wellcome_frame)
+inp_frames.pack()
+Label(inp_frames, text="username: ").pack(side=LEFT)
+inp_name = Entry(inp_frames, font=("FixedSys", 15))
+inp_name.pack(side=LEFT)
+inp_frames2 = Frame(Wellcome_frame)
+inp_frames2.pack()
+Label(inp_frames2, text="choose classes: ").pack(side=LEFT)
+inp_class = ttk.Combobox(inp_frames2, values=Classes, font=("FixedSys", 15))
+inp_class.pack(side=LEFT)
+
+Button(Wellcome_frame, text="Let's Start!", command=Lets_start).pack()
+start_game_lbl = Label(Wellcome_frame, text="")
+start_game_lbl.pack()
+
+weapon_choose_frame = Frame(Wellcome_frame)
+weapon_choose_frame.pack_forget()
+Label(weapon_choose_frame, text="choose weapon: ").pack(side=LEFT)
+weapon_cb = ttk.Combobox(weapon_choose_frame, values=weapons, font=("FixedSys", 15))
+weapon_cb.pack(side=LEFT)
+
+############# Start of the game #############
+
+
+
+
+
+
+
 
 app.mainloop()
 
